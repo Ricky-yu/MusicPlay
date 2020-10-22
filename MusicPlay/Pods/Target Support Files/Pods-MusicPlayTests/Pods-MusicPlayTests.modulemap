@@ -1,0 +1,6 @@
+framework module Pods_MusicPlayTests {
+  umbrella header "Pods-MusicPlayTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
