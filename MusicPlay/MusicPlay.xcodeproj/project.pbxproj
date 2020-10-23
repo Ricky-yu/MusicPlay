@@ -18,8 +18,8 @@
 		D232F35F2541AA7B0095648A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D232F35D2541AA7B0095648A /* LaunchScreen.storyboard */; };
 		D232F36A2541AA7C0095648A /* MusicPlayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D232F3692541AA7C0095648A /* MusicPlayTests.swift */; };
 		D232F3752541AA7C0095648A /* MusicPlayUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D232F3742541AA7C0095648A /* MusicPlayUITests.swift */; };
-		D232F383254310A50095648A /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D232F382254310A50095648A /* ViewModel.swift */; };
 		D232F385254310BB0095648A /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = D232F384254310BB0095648A /* Model.swift */; };
+		D232F38725431A600095648A /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D232F38625431A600095648A /* ViewModel.swift */; };
 		E60128F283E8A16575029F43 /* Pods_MusicPlay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 511D164ECC5116DD3542C64D /* Pods_MusicPlay.framework */; };
 /* End PBXBuildFile section */
 
@@ -64,8 +64,8 @@
 		D232F3702541AA7C0095648A /* MusicPlayUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MusicPlayUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D232F3742541AA7C0095648A /* MusicPlayUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayUITests.swift; sourceTree = "<group>"; };
 		D232F3762541AA7C0095648A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D232F382254310A50095648A /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ViewModel.swift; path = ../../../../ViewModel.swift; sourceTree = "<group>"; };
 		D232F384254310BB0095648A /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		D232F38625431A600095648A /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		D42453472869F8B919E172F3 /* Pods-MusicPlay-MusicPlayUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MusicPlay-MusicPlayUITests.debug.xcconfig"; path = "Target Support Files/Pods-MusicPlay-MusicPlayUITests/Pods-MusicPlay-MusicPlayUITests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -148,8 +148,8 @@
 				D232F34F2541AA790095648A /* AppDelegate.swift */,
 				D232F3512541AA790095648A /* SceneDelegate.swift */,
 				D232F3532541AA790095648A /* ViewController.swift */,
-				D232F382254310A50095648A /* ViewModel.swift */,
 				D232F384254310BB0095648A /* Model.swift */,
+				D232F38625431A600095648A /* ViewModel.swift */,
 				D232F3552541AA790095648A /* Main.storyboard */,
 				D232F35B2541AA7B0095648A /* Assets.xcassets */,
 				D232F35D2541AA7B0095648A /* LaunchScreen.storyboard */,
@@ -416,11 +416,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D232F383254310A50095648A /* ViewModel.swift in Sources */,
 				D232F3542541AA790095648A /* ViewController.swift in Sources */,
 				D232F35A2541AA790095648A /* MusicPlay.xcdatamodeld in Sources */,
 				D232F385254310BB0095648A /* Model.swift in Sources */,
 				D232F3502541AA790095648A /* AppDelegate.swift in Sources */,
+				D232F38725431A600095648A /* ViewModel.swift in Sources */,
 				D232F3522541AA790095648A /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
