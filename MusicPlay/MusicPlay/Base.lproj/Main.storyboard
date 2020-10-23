@@ -16,7 +16,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="noimage" translatesAutoresizingMaskIntoConstraints="NO" id="7er-tR-KAp">
-                                <rect key="frame" x="64" y="64" width="247" height="249.00000000000006"/>
+                                <rect key="frame" x="64" y="64" width="247" height="249"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="7er-tR-KAp" secondAttribute="height" multiplier="247:249" id="n6w-fB-pkn"/>
                                 </constraints>
@@ -30,7 +30,7 @@
                                 <color key="thumbTintColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                             </slider>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="tym-rf-eDT">
-                                <rect key="frame" x="44" y="568" width="291" height="30"/>
+                                <rect key="frame" x="44" y="568" width="291" height="31.5"/>
                                 <color key="minimumTrackTintColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                             </slider>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4k1-WU-r7f">
@@ -96,7 +96,7 @@
                                 <state key="normal" backgroundImage="pauseIcon"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mgb-0F-7eR">
-                                <rect key="frame" x="46" y="616.5" width="21.5" height="30.5"/>
+                                <rect key="frame" x="46" y="618" width="21.5" height="29"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="hvf-1F-mpR"/>
                                 </constraints>
