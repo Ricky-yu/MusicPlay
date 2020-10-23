@@ -16,7 +16,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="noimage" translatesAutoresizingMaskIntoConstraints="NO" id="7er-tR-KAp">
-                                <rect key="frame" x="64" y="64" width="247" height="249"/>
+                                <rect key="frame" x="64" y="64" width="247" height="249.00000000000006"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="7er-tR-KAp" secondAttribute="height" multiplier="247:249" id="n6w-fB-pkn"/>
                                 </constraints>
@@ -29,8 +29,11 @@
                                 <color key="minimumTrackTintColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                                 <color key="thumbTintColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                             </slider>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="tym-rf-eDT">
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="tym-rf-eDT" customClass="MPVolumeView">
                                 <rect key="frame" x="44" y="568" width="291" height="31.5"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" playsSound="YES"/>
+                                </accessibility>
                                 <color key="minimumTrackTintColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                             </slider>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4k1-WU-r7f">
@@ -172,6 +175,18 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="albumName" destination="gJb-t3-tx0" id="3Q2-6a-BG0"/>
+                        <outlet property="currentSongTime" destination="suu-tb-bUO" id="q6t-D8-jE7"/>
+                        <outlet property="forwardBtn" destination="ian-co-ciE" id="BRq-yL-nGk"/>
+                        <outlet property="musicListBtn" destination="mgb-0F-7eR" id="X8p-sI-wfN"/>
+                        <outlet property="playBtn" destination="oPK-Cc-vle" id="Jau-Xv-UIt"/>
+                        <outlet property="rewardBtn" destination="73n-ae-Pnr" id="j4h-LF-cBs"/>
+                        <outlet property="songImageView" destination="7er-tR-KAp" id="5ca-HX-1YU"/>
+                        <outlet property="songName" destination="Sk2-Mq-FTf" id="vcH-Fa-AI0"/>
+                        <outlet property="timeSlider" destination="Awn-qh-yEZ" id="57C-FA-jiF"/>
+                        <outlet property="totalSongTime" destination="4k1-WU-r7f" id="r0l-5n-WWL"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
