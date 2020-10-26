@@ -8,6 +8,7 @@ target 'MusicPlay' do
   # Pods for MusicPlay
   pod 'RxSwift'
   pod 'RxCocoa'
+  pod 'MarqueeLabel/Swift'
   target 'MusicPlayTests' do
     inherit! :search_paths
     # Pods for testing

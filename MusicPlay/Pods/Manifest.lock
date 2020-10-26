@@ -1,4 +1,5 @@
 PODS:
+  - MarqueeLabel/Swift (3.2.1)
   - RxCocoa (5.1.1):
     - RxRelay (~> 5)
     - RxSwift (~> 5)
@@ -7,20 +8,23 @@ PODS:
   - RxSwift (5.1.1)
 
 DEPENDENCIES:
+  - MarqueeLabel/Swift
   - RxCocoa
   - RxSwift
 
 SPEC REPOS:
   trunk:
+    - MarqueeLabel
     - RxCocoa
     - RxRelay
     - RxSwift
 
 SPEC CHECKSUMS:
+  MarqueeLabel: 2daf039bf916937c8a4c9adfc13577cc5e51b4ce
   RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
   RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
   RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
 
-PODFILE CHECKSUM: 10b229ae2657c4e34ca4b51e77c5065323054962
+PODFILE CHECKSUM: 92c293b4057d38453d7495cb630f3a981b63c90e
 
 COCOAPODS: 1.10.0.beta.2
