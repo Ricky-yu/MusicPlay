@@ -29,10 +29,12 @@ class ViewController: UIViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        setup()
+        setupSongNameAnimation()
+        player.repeatMode = .all
         self.musicListBtn.rx.tap.bind{ [weak self] in
             self?.checkPermitUseMusic()
         }.disposed(by: disposeBag)
+        
         self.playBtn.rx.tap.bind{ [weak self] in
             if self?.player.playbackState != .playing {
                 self?.player.play()
@@ -43,9 +45,15 @@ class ViewController: UIViewController {
             }
         }.disposed(by: disposeBag)
         
+        self.timeSlider.rx.value.asObservable()
+        .subscribe(onNext: {
+            self.player.currentPlaybackTime = TimeInterval($0)
+        })
+        .disposed(by: disposeBag)
+        
     }
     
-    func setup() {
+    func setupSongNameAnimation() {
         self.songName.tag = 101
         self.songName.type = .continuous
         self.songName.animationCurve = .easeInOut
@@ -106,14 +114,12 @@ extension ViewController: MPMediaPickerControllerDelegate {
                      didPickMediaItems mediaItemCollection: MPMediaItemCollection) {
         player.stop()
         player.setQueue(with: mediaItemCollection)
-        player.repeatMode = .all
-        
         if let mediaItem = mediaItemCollection.items.first {
             updateSongInformationUI(mediaItem : mediaItem)
+            player.play()
+            playBtn.setBackgroundImage(UIImage(named: "pauseIcon"), for: .normal)
+            self.dismiss(animated: true, completion: nil)
         }
-        player.play()
-        playBtn.setBackgroundImage(UIImage(named: "pauseIcon"), for: .normal)
-        self.dismiss(animated: true, completion: nil)
        
     }
     
@@ -128,6 +134,8 @@ extension ViewController: MPMediaPickerControllerDelegate {
             let image = artwork.image(at: songImageView.bounds.size)
             songImageView.image = image
         }
+        self.timeSlider.maximumValue = Float(mediaItem.playbackDuration )
+        self.timeSlider.setValue(Float(self.player.currentPlaybackTime), animated: true)
     }
     
 }
