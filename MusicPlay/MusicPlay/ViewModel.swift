@@ -9,6 +9,20 @@
 import UIKit
 import RxSwift
 
-class ViewModel: NSObject {
+final class ViewModel {
+    
+    private let bag = DisposeBag()
+
+   let startTimer = PublishSubject<Void>()
+   let stopTimer = PublishSubject<Void>()
+
+   let rxTimer = Observable<Int>
+    .interval(1.0, scheduler: MainScheduler.instance)
+    .shareReplay(1)
+
+    init() {
+    
+    }
+
 
 }
