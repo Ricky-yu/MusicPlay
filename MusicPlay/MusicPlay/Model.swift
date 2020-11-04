@@ -8,6 +8,9 @@
 
 import RxSwift
 
-final class Model: NSObject {
+protocol ModelProtocol {
+}
 
+final class Model: ModelProtocol {
+    
 }
