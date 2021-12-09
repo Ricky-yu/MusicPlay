@@ -21,10 +21,10 @@ typealias Input = (
 final class ViewModel {
     
     private let bag = DisposeBag()
-
-    let startTimer = PublishSubject<Void>()
-    let stopTimer = PublishSubject<Void>()
-    let playState = Observable<MPMusicPlaybackState>
+    let start = PublishRelay<Bool>()
+    let stop = PublishRelay<Bool>()
+    let isPlayIng: Driver<Bool>
+    
     let rxTimer = Observable<Int>
     .interval(1.0, scheduler: MainScheduler.instance)
     .shareReplay(1)
@@ -41,9 +41,9 @@ final class ViewModel {
 //        }).disposed(by: bag)
     }
     
-    func start() {}
+    func startMusic() {}
     
-    func stop() {}
+    func stopMusic() {}
     
     
 
