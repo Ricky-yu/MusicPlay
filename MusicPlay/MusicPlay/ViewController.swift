@@ -26,9 +26,27 @@ class ViewController: UIViewController {
     @IBOutlet weak var musicListBtn: UIButton!
     let disposeBag = DisposeBag();
     let player = MPMusicPlayerController.applicationMusicPlayer
-    let viewModel = ViewModel()
+    private var viewModel: ViewModel!
     override func viewDidLoad() {
         super.viewDidLoad()
+        let viewModelInput = Input(
+            rewardBtnTap: rewardBtn.rx.tap.asSignal(),
+            playBtnTap: rewardBtn.rx.tap.asSignal(),
+            forwardBtnTap: rewardBtn.rx.tap.asSignal(),
+            musicListBtn: rewardBtn.rx.tap.asSignal(),
+            timeSlider: rewardBtn.rx.tap.asSignal()
+        )
+        self.viewModel = ViewModel(input: viewModelInput)
+        
+        viewModel.isPlayIng.drive(onNext: { [weak self] isPlaying in
+            if isPlaying {
+                self?.player.stop()
+                self?.playBtn.rx.backgroundImage().onNext(UIImage(named: "playIcon"))
+            } else {
+                self?.player.play()
+                self?.playBtn.rx.backgroundImage().onNext(UIImage(named: "pauseIcon"))
+            }
+        })
         setupSongNameAnimation()
         player.repeatMode = .all
         self.musicListBtn.rx.tap.bind{ [weak self] in
