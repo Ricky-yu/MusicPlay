@@ -55,13 +55,6 @@ class ViewController: UIViewController {
         
         self.playBtn.rx.tap.bind{ [weak self] in
             self?.viewModel?.start.accept(self?.player.playbackState == .playing)
-//            if self?.player.playbackState != .playing {
-//                self?.player.play()
-//                self?.playBtn.rx.backgroundImage().onNext(UIImage(named: "pauseIcon"))
-//            } else {
-//                self?.player.stop()
-//                self?.playBtn.rx.backgroundImage().onNext(UIImage(named: "playIcon"))
-//            }
         }.disposed(by: disposeBag)
         
         self.timeSlider.rx.value.asObservable()
