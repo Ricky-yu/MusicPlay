@@ -39,6 +39,7 @@ class ViewController: UIViewController {
         self.viewModel = ViewModel(input: viewModelInput)
         setupSongNameAnimation()
         player.repeatMode = .all
+        
         viewModel.state.subscribe(onNext: {[weak self] isPlaying in
             if isPlaying {
                 self?.player.stop()
@@ -156,11 +157,9 @@ extension ViewController: MPMediaPickerControllerDelegate {
             self.viewModel?.state.accept(player.playbackState == .playing)
             self.dismiss(animated: true, completion: nil)
         }
-       
     }
     
     func mediaPickerDidCancel(_ mediaPicker: MPMediaPickerController) {
         dismiss(animated: true, completion: nil)
     }
 }
-
