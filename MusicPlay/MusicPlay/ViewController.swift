@@ -60,7 +60,7 @@ class ViewController: UIViewController {
         self.timeSlider.rx.value.asObservable()
         .subscribe(onNext: {
             self.player.currentPlaybackTime = TimeInterval($0)
-            self.currentSongTime.text = self.getCurrentSongTime(self.player.currentPlaybackTime)
+            self.currentSongTime.text = self.viewModel.getCurrentSongTime(self.player.currentPlaybackTime)
         })
         .disposed(by: disposeBag)
         
@@ -73,14 +73,6 @@ class ViewController: UIViewController {
             self?.player.currentPlaybackTime -= 15
             self?.timeSlider.setValue(Float(self!.player.currentPlaybackTime), animated: true)
         }.disposed(by: disposeBag)
-    }
-    
-    func getCurrentSongTime(_ currentPlaybackTime: TimeInterval) -> String {
-        if(currentPlaybackTime.truncatingRemainder(dividingBy: 60.0) < 10){
-            return  "\(Int(currentPlaybackTime/60)):0\(Int(currentPlaybackTime .truncatingRemainder(dividingBy: 60.0)))"
-        }else{
-           return "\(Int(currentPlaybackTime/60)):\(Int(currentPlaybackTime .truncatingRemainder(dividingBy: 60.0)))"
-        }
     }
     
     func setupSongNameAnimation() {
@@ -151,7 +143,7 @@ extension ViewController: MPMediaPickerControllerDelegate {
             viewModel.rxTimer
              .subscribe { (count) -> Void in
                 self.timeSlider.rx.base.value = Float(self.player.currentPlaybackTime)
-                self.currentSongTime.text = self.getCurrentSongTime(self.player.currentPlaybackTime)
+                self.currentSongTime.text = self.viewModel.getCurrentSongTime(self.player.currentPlaybackTime)
             }
             .disposed(by: disposeBag)
             self.dismiss(animated: true, completion: nil)
@@ -176,7 +168,7 @@ extension ViewController: MPMediaPickerControllerDelegate {
         self.timeSlider.maximumValue = Float(mediaItem.playbackDuration )
         self.timeSlider.setValue(Float(self.player.currentPlaybackTime), animated: true)
         let MusicMaxValue = round(self.timeSlider.maximumValue)-1
-        totalSongTime.text = self.getCurrentSongTime(TimeInterval(MusicMaxValue))
+        totalSongTime.text = self.viewModel.getCurrentSongTime(TimeInterval(MusicMaxValue))
     }
     
 }
