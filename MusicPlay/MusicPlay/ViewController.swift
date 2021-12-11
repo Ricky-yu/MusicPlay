@@ -58,13 +58,6 @@ class ViewController: UIViewController {
             self?.totalSongTime.text = totalSongTimeStr
         }).disposed(by: disposeBag)
         
-        viewModel.rxTimer
-         .subscribe { (count) -> Void in
-            self.timeSlider.rx.base.value = Float(self.player.currentPlaybackTime)
-            self.viewModel.setCurrentSongTime(self.player.currentPlaybackTime)
-        }
-        .disposed(by: disposeBag)
-        
         viewModel.songItemState.subscribe(onNext: {[weak self] mediaData in
             self?.playBtn.isEnabled = true
             self?.forwardBtn.isEnabled = true

@@ -27,9 +27,7 @@ final class ViewModel {
     let currentSongTime = PublishRelay<String>()
     let totalSongTime = PublishRelay<String>()
     let songItemState = PublishRelay<MPMediaItem>()
-    let rxTimer = Observable<Int>
-        .interval(1.0, scheduler: MainScheduler.instance)
-        .share(replay: 1)
+    let playbackTime =  PublishRelay<TimeInterval>()
 
     init(input: Input) {
     }
