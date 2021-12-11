@@ -15,7 +15,6 @@ final class ViewModel {
     
     let bag = DisposeBag()
     let state = PublishRelay<Bool>()
-    let stop = PublishRelay<Bool>()
     let currentSongTime = PublishRelay<String>()
     let totalSongTime = PublishRelay<String>()
     let songItemState = PublishRelay<MPMediaItem>()
