@@ -11,14 +11,6 @@ import RxSwift
 import RxCocoa
 import MediaPlayer
 
-typealias Input = (
-    rewardBtnTap: Signal<Void>,
-    playBtnTap: Signal<Void>,
-    forwardBtnTap: Signal<Void>,
-    musicListBtn: Signal<Void>,
-    timeSlider: Signal<Void>
-)
-
 final class ViewModel {
     
     let bag = DisposeBag()
@@ -27,12 +19,7 @@ final class ViewModel {
     let currentSongTime = PublishRelay<String>()
     let totalSongTime = PublishRelay<String>()
     let songItemState = PublishRelay<MPMediaItem>()
-    let rxTimer = Observable<Int>
-        .interval(1.0, scheduler: MainScheduler.instance)
-        .share(replay: 1)
-
-    init(input: Input) {
-    }
+    let playbackTime =  PublishRelay<TimeInterval>()
     
     func setCurrentSongTime(_ currentPlaybackTime: TimeInterval) {
         currentSongTime.accept(self.changeTimeIntervalToTimeString(currentPlaybackTime))
@@ -42,11 +29,11 @@ final class ViewModel {
         totalSongTime.accept(self.changeTimeIntervalToTimeString(currentPlaybackTime))
     }
     
-   private func changeTimeIntervalToTimeString(_ currentPlaybackTime: TimeInterval) -> String {
+    private func changeTimeIntervalToTimeString(_ currentPlaybackTime: TimeInterval) -> String {
         if(currentPlaybackTime.truncatingRemainder(dividingBy: 60.0) < 10) {
             return  "\(Int(currentPlaybackTime/60)):0\(Int(currentPlaybackTime .truncatingRemainder(dividingBy: 60.0)))"
         } else {
-           return "\(Int(currentPlaybackTime/60)):\(Int(currentPlaybackTime .truncatingRemainder(dividingBy: 60.0)))"
+            return "\(Int(currentPlaybackTime/60)):\(Int(currentPlaybackTime .truncatingRemainder(dividingBy: 60.0)))"
         }
     }
 }
