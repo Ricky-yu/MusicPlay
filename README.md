@@ -11,3 +11,8 @@ RxSwift RxCocoa
 ```cd``` //プロジェクトDirに移動 <br>
 ```pod install```　//ライブラリインストール <br>
 Todo.xcworkspaceをクリックして起動 <br>
+# photo
+<p align="left">
+  <img src="https://github.com/Ricky-yu/MusicPlay/blob/master/IMG_0173.jpg" width="250" title="hover text">
+  <img src="https://github.com/Ricky-yu/MusicPlay/blob/master/IMG_0174.jpg" width="250" title="hover text">
+</p>
