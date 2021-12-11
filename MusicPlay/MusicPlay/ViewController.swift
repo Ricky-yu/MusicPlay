@@ -38,7 +38,7 @@ class ViewController: UIViewController {
         )
         self.viewModel = ViewModel(input: viewModelInput)
         setupSongNameAnimation()
-        
+        player.repeatMode = .all
         viewModel.state.subscribe(onNext: {[weak self] isPlaying in
             if isPlaying {
                 self?.player.stop()
@@ -57,8 +57,13 @@ class ViewController: UIViewController {
             self?.totalSongTime.text = totalSongTimeStr
         }).disposed(by: disposeBag)
         
+        viewModel.rxTimer
+         .subscribe { (count) -> Void in
+            self.timeSlider.rx.base.value = Float(self.player.currentPlaybackTime)
+            self.viewModel.setCurrentSongTime(self.player.currentPlaybackTime)
+        }
+        .disposed(by: disposeBag)
         
-        player.repeatMode = .all
         self.musicListBtn.rx.tap.bind{ [weak self] in
             self?.checkPermitUseMusic()
         }.disposed(by: disposeBag)
@@ -148,14 +153,7 @@ extension ViewController: MPMediaPickerControllerDelegate {
         player.setQueue(with: mediaItemCollection)
         if let mediaItem = mediaItemCollection.items.first {
             updateSongInformationUI(mediaItem : mediaItem)
-            player.play()
-            playBtn.setBackgroundImage(UIImage(named: "pauseIcon"), for: .normal)
-            viewModel.rxTimer
-             .subscribe { (count) -> Void in
-                self.timeSlider.rx.base.value = Float(self.player.currentPlaybackTime)
-                self.viewModel.setCurrentSongTime(self.player.currentPlaybackTime)
-            }
-            .disposed(by: disposeBag)
+            self.viewModel?.state.accept(player.playbackState == .playing)
             self.dismiss(animated: true, completion: nil)
         }
        

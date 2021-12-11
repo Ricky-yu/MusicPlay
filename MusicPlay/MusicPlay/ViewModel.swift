@@ -20,10 +20,9 @@ typealias Input = (
 
 final class ViewModel {
     
-    private let bag = DisposeBag()
+    let bag = DisposeBag()
     let state = PublishRelay<Bool>()
     let stop = PublishRelay<Bool>()
-    let isPlayIng: Driver<Bool>
     let currentSongTime = PublishRelay<String>()
     let totalSongTime = PublishRelay<String>()
     let rxTimer = Observable<Int>
@@ -31,21 +30,7 @@ final class ViewModel {
     .shareReplay(1)
 
     init(input: Input) {
-        
-        isPlayIng = state.asDriver(onErrorDriveWith: .empty())
-        
-//        input.playBtnTap.emit(onNext: { [weak self] in
-//
-//        }).disposed(by: bag)
-//
-//        input.musicListBtn.emit(onNext: { [weak self] in
-//
-//        }).disposed(by: bag)
     }
-    
-    func startMusic() {}
-    
-    func stopMusic() {}
     
     func setCurrentSongTime(_ currentPlaybackTime: TimeInterval) {
         currentSongTime.accept(self.changeTimeIntervalToTimeString(currentPlaybackTime))
