@@ -49,6 +49,15 @@ class ViewController: UIViewController {
             }
         }).disposed(by: disposeBag)
         
+        viewModel.currentSongTime.subscribe(onNext: {[weak self] songTimeStr in
+            self?.currentSongTime.text = songTimeStr
+        }).disposed(by: disposeBag)
+        
+        viewModel.totalSongTime.subscribe(onNext: {[weak self] totalSongTimeStr in
+            self?.totalSongTime.text = totalSongTimeStr
+        }).disposed(by: disposeBag)
+        
+        
         player.repeatMode = .all
         self.musicListBtn.rx.tap.bind{ [weak self] in
             self?.checkPermitUseMusic()

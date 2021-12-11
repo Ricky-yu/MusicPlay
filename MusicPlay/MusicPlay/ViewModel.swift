@@ -24,7 +24,8 @@ final class ViewModel {
     let state = PublishRelay<Bool>()
     let stop = PublishRelay<Bool>()
     let isPlayIng: Driver<Bool>
-    
+    let currentSongTime = PublishRelay<String>()
+    let totalSongTime = PublishRelay<String>()
     let rxTimer = Observable<Int>
     .interval(1.0, scheduler: MainScheduler.instance)
     .shareReplay(1)
