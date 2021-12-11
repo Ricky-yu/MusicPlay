@@ -27,6 +27,7 @@ class ViewController: UIViewController {
     let disposeBag = DisposeBag();
     let player = MPMusicPlayerController.applicationMusicPlayer
     private var viewModel: ViewModel!
+    private var subscription: Disposable?
     override func viewDidLoad() {
         super.viewDidLoad()
         let viewModelInput = Input(
@@ -39,6 +40,13 @@ class ViewController: UIViewController {
         self.viewModel = ViewModel(input: viewModelInput)
         setupSongNameAnimation()
         player.repeatMode = .all
+        
+        let rxTimer = Observable<Int>
+            .interval(0.5, scheduler: MainScheduler.instance)
+            .subscribe {_ in
+                self.viewModel.playbackTime.accept(self.player.currentPlaybackTime)
+            }
+        self.subscription = rxTimer
         
         viewModel.state.subscribe(onNext: {[weak self] isPlaying in
             if isPlaying {
@@ -76,6 +84,11 @@ class ViewController: UIViewController {
             self?.viewModel.setTotalSongTime(TimeInterval(MusicMaxValue))
         }).disposed(by: disposeBag)
         
+        viewModel.playbackTime.subscribe(onNext: {[weak self] time in
+            self?.timeSlider.rx.base.value = Float(time)
+            self?.viewModel.setCurrentSongTime(time)
+        }).disposed(by: disposeBag)
+        
         self.musicListBtn.rx.tap.bind{ [weak self] in
             self?.checkPermitUseMusic()
         }.disposed(by: disposeBag)
@@ -93,13 +106,15 @@ class ViewController: UIViewController {
         
         self.forwardBtn.rx.tap.bind{[weak self] in
             self?.player.currentPlaybackTime += 15
-            self?.timeSlider.setValue(Float(self!.player.currentPlaybackTime), animated: true)
         }.disposed(by: disposeBag)
         
         self.rewardBtn.rx.tap.bind{[weak self] in
             self?.player.currentPlaybackTime -= 15
-            self?.timeSlider.setValue(Float(self!.player.currentPlaybackTime), animated: true)
         }.disposed(by: disposeBag)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        self.subscription?.disposed(by: disposeBag)
     }
     
     func setupSongNameAnimation() {
