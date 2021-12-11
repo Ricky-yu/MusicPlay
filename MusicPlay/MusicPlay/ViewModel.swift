@@ -9,6 +9,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import MediaPlayer
 
 typealias Input = (
     rewardBtnTap: Signal<Void>,
@@ -20,31 +21,32 @@ typealias Input = (
 
 final class ViewModel {
     
-    private let bag = DisposeBag()
-    let start = PublishRelay<Bool>()
+    let bag = DisposeBag()
+    let state = PublishRelay<Bool>()
     let stop = PublishRelay<Bool>()
-    let isPlayIng: Driver<Bool>
-    
+    let currentSongTime = PublishRelay<String>()
+    let totalSongTime = PublishRelay<String>()
+    let songItemState = PublishRelay<MPMediaItem>()
     let rxTimer = Observable<Int>
-    .interval(1.0, scheduler: MainScheduler.instance)
-    .shareReplay(1)
+        .interval(1.0, scheduler: MainScheduler.instance)
+        .share(replay: 1)
 
     init(input: Input) {
-        isPlayIng = start.asDriver(onErrorDriveWith: .empty())
-        
-//        input.playBtnTap.emit(onNext: { [weak self] in
-//
-//        }).disposed(by: bag)
-//
-//        input.musicListBtn.emit(onNext: { [weak self] in
-//
-//        }).disposed(by: bag)
     }
     
-    func startMusic() {}
+    func setCurrentSongTime(_ currentPlaybackTime: TimeInterval) {
+        currentSongTime.accept(self.changeTimeIntervalToTimeString(currentPlaybackTime))
+    }
     
-    func stopMusic() {}
+    func setTotalSongTime(_ currentPlaybackTime: TimeInterval) {
+        totalSongTime.accept(self.changeTimeIntervalToTimeString(currentPlaybackTime))
+    }
     
-    
-
+   private func changeTimeIntervalToTimeString(_ currentPlaybackTime: TimeInterval) -> String {
+        if(currentPlaybackTime.truncatingRemainder(dividingBy: 60.0) < 10) {
+            return  "\(Int(currentPlaybackTime/60)):0\(Int(currentPlaybackTime .truncatingRemainder(dividingBy: 60.0)))"
+        } else {
+           return "\(Int(currentPlaybackTime/60)):\(Int(currentPlaybackTime .truncatingRemainder(dividingBy: 60.0)))"
+        }
+    }
 }

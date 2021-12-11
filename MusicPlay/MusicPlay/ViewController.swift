@@ -37,8 +37,10 @@ class ViewController: UIViewController {
             timeSlider: rewardBtn.rx.tap.asSignal()
         )
         self.viewModel = ViewModel(input: viewModelInput)
+        setupSongNameAnimation()
+        player.repeatMode = .all
         
-        viewModel.isPlayIng.drive(onNext: { [weak self] isPlaying in
+        viewModel.state.subscribe(onNext: {[weak self] isPlaying in
             if isPlaying {
                 self?.player.stop()
                 self?.playBtn.rx.backgroundImage().onNext(UIImage(named: "playIcon"))
@@ -46,21 +48,53 @@ class ViewController: UIViewController {
                 self?.player.play()
                 self?.playBtn.rx.backgroundImage().onNext(UIImage(named: "pauseIcon"))
             }
-        })
-        setupSongNameAnimation()
-        player.repeatMode = .all
+        }).disposed(by: disposeBag)
+        
+        viewModel.currentSongTime.subscribe(onNext: {[weak self] songTimeStr in
+            self?.currentSongTime.text = songTimeStr
+        }).disposed(by: disposeBag)
+        
+        viewModel.totalSongTime.subscribe(onNext: {[weak self] totalSongTimeStr in
+            self?.totalSongTime.text = totalSongTimeStr
+        }).disposed(by: disposeBag)
+        
+        viewModel.rxTimer
+         .subscribe { (count) -> Void in
+            self.timeSlider.rx.base.value = Float(self.player.currentPlaybackTime)
+            self.viewModel.setCurrentSongTime(self.player.currentPlaybackTime)
+        }
+        .disposed(by: disposeBag)
+        
+        viewModel.songItemState.subscribe(onNext: {[weak self] mediaData in
+            self?.playBtn.isEnabled = true
+            self?.forwardBtn.isEnabled = true
+            self?.rewardBtn.isEnabled = true
+            self?.songName.text = mediaData.title ?? "不明な曲"
+            self?.albumName.text = mediaData.albumTitle ?? "不明なアルバム"
+            
+            if let artwork = mediaData.artwork {
+                let image = artwork.image(at: (self?.songImageView.bounds.size)!)
+                self?.songImageView.image = image
+            }
+            let playbackDuration = Float(mediaData.playbackDuration)
+            self?.timeSlider.maximumValue = playbackDuration
+            self?.timeSlider.setValue(Float(self?.player.currentPlaybackTime ?? 0), animated: true)
+            let MusicMaxValue = round(playbackDuration)-1
+            self?.viewModel.setTotalSongTime(TimeInterval(MusicMaxValue))
+        }).disposed(by: disposeBag)
+        
         self.musicListBtn.rx.tap.bind{ [weak self] in
             self?.checkPermitUseMusic()
         }.disposed(by: disposeBag)
         
         self.playBtn.rx.tap.bind{ [weak self] in
-            self?.viewModel?.start.accept(self?.player.playbackState == .playing)
+            self?.viewModel?.state.accept(self?.player.playbackState == .playing)
         }.disposed(by: disposeBag)
         
         self.timeSlider.rx.value.asObservable()
         .subscribe(onNext: {
             self.player.currentPlaybackTime = TimeInterval($0)
-            self.currentSongTime.text = self.getCurrentSongTime(self.player.currentPlaybackTime)
+            self.viewModel.setCurrentSongTime(TimeInterval($0))
         })
         .disposed(by: disposeBag)
         
@@ -73,14 +107,6 @@ class ViewController: UIViewController {
             self?.player.currentPlaybackTime -= 15
             self?.timeSlider.setValue(Float(self!.player.currentPlaybackTime), animated: true)
         }.disposed(by: disposeBag)
-    }
-    
-    func getCurrentSongTime(_ currentPlaybackTime: TimeInterval) -> String {
-        if(currentPlaybackTime.truncatingRemainder(dividingBy: 60.0) < 10){
-            return  "\(Int(currentPlaybackTime/60)):0\(Int(currentPlaybackTime .truncatingRemainder(dividingBy: 60.0)))"
-        }else{
-           return "\(Int(currentPlaybackTime/60)):\(Int(currentPlaybackTime .truncatingRemainder(dividingBy: 60.0)))"
-        }
     }
     
     func setupSongNameAnimation() {
@@ -145,39 +171,13 @@ extension ViewController: MPMediaPickerControllerDelegate {
         player.stop()
         player.setQueue(with: mediaItemCollection)
         if let mediaItem = mediaItemCollection.items.first {
-            updateSongInformationUI(mediaItem : mediaItem)
-            player.play()
-            playBtn.setBackgroundImage(UIImage(named: "pauseIcon"), for: .normal)
-            viewModel.rxTimer
-             .subscribe { (count) -> Void in
-                self.timeSlider.rx.base.value = Float(self.player.currentPlaybackTime)
-                self.currentSongTime.text = self.getCurrentSongTime(self.player.currentPlaybackTime)
-            }
-            .disposed(by: disposeBag)
+            self.viewModel?.songItemState.accept(mediaItem)
+            self.viewModel?.state.accept(player.playbackState == .playing)
             self.dismiss(animated: true, completion: nil)
         }
-       
     }
     
     func mediaPickerDidCancel(_ mediaPicker: MPMediaPickerController) {
         dismiss(animated: true, completion: nil)
     }
-    
-    func updateSongInformationUI(mediaItem: MPMediaItem) {
-        self.playBtn.isEnabled = true
-        self.forwardBtn.isEnabled = true
-        self.rewardBtn.isEnabled = true
-        songName.text = mediaItem.title ?? "不明な曲"
-        albumName.text = mediaItem.albumTitle ?? "不明なアルバム"
-        if let artwork = mediaItem.artwork {
-            let image = artwork.image(at: songImageView.bounds.size)
-            songImageView.image = image
-        }
-        self.timeSlider.maximumValue = Float(mediaItem.playbackDuration )
-        self.timeSlider.setValue(Float(self.player.currentPlaybackTime), animated: true)
-        let MusicMaxValue = round(self.timeSlider.maximumValue)-1
-        totalSongTime.text = self.getCurrentSongTime(TimeInterval(MusicMaxValue))
-    }
-    
 }
-
