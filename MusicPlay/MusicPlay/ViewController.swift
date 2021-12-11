@@ -37,6 +37,7 @@ class ViewController: UIViewController {
             timeSlider: rewardBtn.rx.tap.asSignal()
         )
         self.viewModel = ViewModel(input: viewModelInput)
+        setupSongNameAnimation()
         
         viewModel.state.subscribe(onNext: {[weak self] isPlaying in
             if isPlaying {
