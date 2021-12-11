@@ -9,6 +9,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import MediaPlayer
 
 typealias Input = (
     rewardBtnTap: Signal<Void>,
@@ -25,9 +26,10 @@ final class ViewModel {
     let stop = PublishRelay<Bool>()
     let currentSongTime = PublishRelay<String>()
     let totalSongTime = PublishRelay<String>()
+    let songItemState = PublishRelay<MPMediaItem>()
     let rxTimer = Observable<Int>
-    .interval(1.0, scheduler: MainScheduler.instance)
-    .shareReplay(1)
+        .interval(1.0, scheduler: MainScheduler.instance)
+        .share(replay: 1)
 
     init(input: Input) {
     }
