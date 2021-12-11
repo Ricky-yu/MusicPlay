@@ -58,10 +58,8 @@ final class ViewModel {
    private func changeTimeIntervalToTimeString(_ currentPlaybackTime: TimeInterval) -> String {
         if(currentPlaybackTime.truncatingRemainder(dividingBy: 60.0) < 10) {
             return  "\(Int(currentPlaybackTime/60)):0\(Int(currentPlaybackTime .truncatingRemainder(dividingBy: 60.0)))"
-        }else{
+        } else {
            return "\(Int(currentPlaybackTime/60)):\(Int(currentPlaybackTime .truncatingRemainder(dividingBy: 60.0)))"
         }
     }
-    
-
 }
