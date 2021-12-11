@@ -13,7 +13,7 @@ import RxSwift
 import RxCocoa
 
 class ViewController: UIViewController {
-
+    
     @IBOutlet weak var songImageView: UIImageView!
     @IBOutlet weak var timeSlider: UISlider!
     @IBOutlet weak var songName: MarqueeLabel!
@@ -47,7 +47,15 @@ class ViewController: UIViewController {
                 self.viewModel.playbackTime.accept(self.player.currentPlaybackTime)
             }
         self.subscription = rxTimer
-        
+        self.setsubscribe()
+        self.setBind()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        self.subscription?.disposed(by: disposeBag)
+    }
+    
+    func setsubscribe() {
         viewModel.state.subscribe(onNext: {[weak self] isPlaying in
             if isPlaying {
                 self?.player.stop()
@@ -92,17 +100,19 @@ class ViewController: UIViewController {
         self.musicListBtn.rx.tap.bind{ [weak self] in
             self?.checkPermitUseMusic()
         }.disposed(by: disposeBag)
-        
+    }
+    
+    func setBind() {
         self.playBtn.rx.tap.bind{ [weak self] in
             self?.viewModel?.state.accept(self?.player.playbackState == .playing)
         }.disposed(by: disposeBag)
         
         self.timeSlider.rx.value.asObservable()
-        .subscribe(onNext: {
-            self.player.currentPlaybackTime = TimeInterval($0)
-            self.viewModel.setCurrentSongTime(TimeInterval($0))
-        })
-        .disposed(by: disposeBag)
+            .subscribe(onNext: {
+                self.player.currentPlaybackTime = TimeInterval($0)
+                self.viewModel.setCurrentSongTime(TimeInterval($0))
+            })
+            .disposed(by: disposeBag)
         
         self.forwardBtn.rx.tap.bind{[weak self] in
             self?.player.currentPlaybackTime += 15
@@ -111,10 +121,6 @@ class ViewController: UIViewController {
         self.rewardBtn.rx.tap.bind{[weak self] in
             self?.player.currentPlaybackTime -= 15
         }.disposed(by: disposeBag)
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        self.subscription?.disposed(by: disposeBag)
     }
     
     func setupSongNameAnimation() {
@@ -126,7 +132,7 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: MPMediaPickerControllerDelegate {
-
+    
     func checkPermitUseMusic(){
         let status = MPMediaLibrary.authorizationStatus()
         switch status {

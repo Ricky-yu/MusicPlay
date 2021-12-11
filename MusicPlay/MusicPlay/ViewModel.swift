@@ -40,11 +40,11 @@ final class ViewModel {
         totalSongTime.accept(self.changeTimeIntervalToTimeString(currentPlaybackTime))
     }
     
-   private func changeTimeIntervalToTimeString(_ currentPlaybackTime: TimeInterval) -> String {
+    private func changeTimeIntervalToTimeString(_ currentPlaybackTime: TimeInterval) -> String {
         if(currentPlaybackTime.truncatingRemainder(dividingBy: 60.0) < 10) {
             return  "\(Int(currentPlaybackTime/60)):0\(Int(currentPlaybackTime .truncatingRemainder(dividingBy: 60.0)))"
         } else {
-           return "\(Int(currentPlaybackTime/60)):\(Int(currentPlaybackTime .truncatingRemainder(dividingBy: 60.0)))"
+            return "\(Int(currentPlaybackTime/60)):\(Int(currentPlaybackTime .truncatingRemainder(dividingBy: 60.0)))"
         }
     }
 }
