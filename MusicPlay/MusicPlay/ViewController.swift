@@ -152,7 +152,7 @@ extension ViewController: MPMediaPickerControllerDelegate {
         player.stop()
         player.setQueue(with: mediaItemCollection)
         if let mediaItem = mediaItemCollection.items.first {
-            updateSongInformationUI(mediaItem : mediaItem)
+            self.viewModel?.songItemState.accept(mediaItem)
             self.viewModel?.state.accept(player.playbackState == .playing)
             self.dismiss(animated: true, completion: nil)
         }
@@ -162,22 +162,5 @@ extension ViewController: MPMediaPickerControllerDelegate {
     func mediaPickerDidCancel(_ mediaPicker: MPMediaPickerController) {
         dismiss(animated: true, completion: nil)
     }
-    
-    func updateSongInformationUI(mediaItem: MPMediaItem) {
-        self.playBtn.isEnabled = true
-        self.forwardBtn.isEnabled = true
-        self.rewardBtn.isEnabled = true
-        songName.text = mediaItem.title ?? "不明な曲"
-        albumName.text = mediaItem.albumTitle ?? "不明なアルバム"
-        if let artwork = mediaItem.artwork {
-            let image = artwork.image(at: songImageView.bounds.size)
-            songImageView.image = image
-        }
-        self.timeSlider.maximumValue = Float(mediaItem.playbackDuration )
-        self.timeSlider.setValue(Float(self.player.currentPlaybackTime), animated: true)
-        let MusicMaxValue = round(self.timeSlider.maximumValue)-1
-        viewModel.setTotalSongTime(TimeInterval(MusicMaxValue))
-    }
-    
 }
 
