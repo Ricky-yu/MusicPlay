@@ -70,7 +70,7 @@ class ViewController: UIViewController {
         self.timeSlider.rx.value.asObservable()
         .subscribe(onNext: {
             self.player.currentPlaybackTime = TimeInterval($0)
-            self.currentSongTime.text = self.viewModel.getCurrentSongTime(self.player.currentPlaybackTime)
+            self.viewModel.setCurrentSongTime(TimeInterval($0))
         })
         .disposed(by: disposeBag)
         
@@ -153,7 +153,7 @@ extension ViewController: MPMediaPickerControllerDelegate {
             viewModel.rxTimer
              .subscribe { (count) -> Void in
                 self.timeSlider.rx.base.value = Float(self.player.currentPlaybackTime)
-                self.currentSongTime.text = self.viewModel.getCurrentSongTime(self.player.currentPlaybackTime)
+                self.viewModel.setCurrentSongTime(self.player.currentPlaybackTime)
             }
             .disposed(by: disposeBag)
             self.dismiss(animated: true, completion: nil)
@@ -178,7 +178,7 @@ extension ViewController: MPMediaPickerControllerDelegate {
         self.timeSlider.maximumValue = Float(mediaItem.playbackDuration )
         self.timeSlider.setValue(Float(self.player.currentPlaybackTime), animated: true)
         let MusicMaxValue = round(self.timeSlider.maximumValue)-1
-        totalSongTime.text = self.viewModel.getCurrentSongTime(TimeInterval(MusicMaxValue))
+        viewModel.setTotalSongTime(TimeInterval(MusicMaxValue))
     }
     
 }

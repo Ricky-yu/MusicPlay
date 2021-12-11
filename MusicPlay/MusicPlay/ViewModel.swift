@@ -47,9 +47,16 @@ final class ViewModel {
     
     func stopMusic() {}
     
+    func setCurrentSongTime(_ currentPlaybackTime: TimeInterval) {
+        currentSongTime.accept(self.changeTimeIntervalToTimeString(currentPlaybackTime))
+    }
     
-    func getCurrentSongTime(_ currentPlaybackTime: TimeInterval) -> String {
-        if(currentPlaybackTime.truncatingRemainder(dividingBy: 60.0) < 10){
+    func setTotalSongTime(_ currentPlaybackTime: TimeInterval) {
+        totalSongTime.accept(self.changeTimeIntervalToTimeString(currentPlaybackTime))
+    }
+    
+   private func changeTimeIntervalToTimeString(_ currentPlaybackTime: TimeInterval) -> String {
+        if(currentPlaybackTime.truncatingRemainder(dividingBy: 60.0) < 10) {
             return  "\(Int(currentPlaybackTime/60)):0\(Int(currentPlaybackTime .truncatingRemainder(dividingBy: 60.0)))"
         }else{
            return "\(Int(currentPlaybackTime/60)):\(Int(currentPlaybackTime .truncatingRemainder(dividingBy: 60.0)))"
