@@ -38,7 +38,7 @@ class ViewController: UIViewController {
         )
         self.viewModel = ViewModel(input: viewModelInput)
         
-        viewModel.isPlayIng.drive(onNext: { [weak self] isPlaying in
+        viewModel.state.subscribe(onNext: {[weak self] isPlaying in
             if isPlaying {
                 self?.player.stop()
                 self?.playBtn.rx.backgroundImage().onNext(UIImage(named: "playIcon"))
@@ -46,15 +46,15 @@ class ViewController: UIViewController {
                 self?.player.play()
                 self?.playBtn.rx.backgroundImage().onNext(UIImage(named: "pauseIcon"))
             }
-        })
-        setupSongNameAnimation()
+        }).disposed(by: disposeBag)
+        
         player.repeatMode = .all
         self.musicListBtn.rx.tap.bind{ [weak self] in
             self?.checkPermitUseMusic()
         }.disposed(by: disposeBag)
         
         self.playBtn.rx.tap.bind{ [weak self] in
-            self?.viewModel?.start.accept(self?.player.playbackState == .playing)
+            self?.viewModel?.state.accept(self?.player.playbackState == .playing)
         }.disposed(by: disposeBag)
         
         self.timeSlider.rx.value.asObservable()

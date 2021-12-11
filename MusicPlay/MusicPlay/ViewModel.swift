@@ -21,7 +21,7 @@ typealias Input = (
 final class ViewModel {
     
     private let bag = DisposeBag()
-    let start = PublishRelay<Bool>()
+    let state = PublishRelay<Bool>()
     let stop = PublishRelay<Bool>()
     let isPlayIng: Driver<Bool>
     
