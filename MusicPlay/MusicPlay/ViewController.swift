@@ -30,14 +30,7 @@ class ViewController: UIViewController {
     private var subscription: Disposable?
     override func viewDidLoad() {
         super.viewDidLoad()
-        let viewModelInput = Input(
-            rewardBtnTap: rewardBtn.rx.tap.asSignal(),
-            playBtnTap: rewardBtn.rx.tap.asSignal(),
-            forwardBtnTap: rewardBtn.rx.tap.asSignal(),
-            musicListBtn: rewardBtn.rx.tap.asSignal(),
-            timeSlider: rewardBtn.rx.tap.asSignal()
-        )
-        self.viewModel = ViewModel(input: viewModelInput)
+        self.viewModel = ViewModel()
         setupSongNameAnimation()
         player.repeatMode = .all
         

@@ -11,14 +11,6 @@ import RxSwift
 import RxCocoa
 import MediaPlayer
 
-typealias Input = (
-    rewardBtnTap: Signal<Void>,
-    playBtnTap: Signal<Void>,
-    forwardBtnTap: Signal<Void>,
-    musicListBtn: Signal<Void>,
-    timeSlider: Signal<Void>
-)
-
 final class ViewModel {
     
     let bag = DisposeBag()
@@ -28,9 +20,6 @@ final class ViewModel {
     let totalSongTime = PublishRelay<String>()
     let songItemState = PublishRelay<MPMediaItem>()
     let playbackTime =  PublishRelay<TimeInterval>()
-
-    init(input: Input) {
-    }
     
     func setCurrentSongTime(_ currentPlaybackTime: TimeInterval) {
         currentSongTime.accept(self.changeTimeIntervalToTimeString(currentPlaybackTime))
