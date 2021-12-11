@@ -65,6 +65,24 @@ class ViewController: UIViewController {
         }
         .disposed(by: disposeBag)
         
+        viewModel.songItemState.subscribe(onNext: {[weak self] mediaData in
+            self?.playBtn.isEnabled = true
+            self?.forwardBtn.isEnabled = true
+            self?.rewardBtn.isEnabled = true
+            self?.songName.text = mediaData.title ?? "不明な曲"
+            self?.albumName.text = mediaData.albumTitle ?? "不明なアルバム"
+            
+            if let artwork = mediaData.artwork {
+                let image = artwork.image(at: (self?.songImageView.bounds.size)!)
+                self?.songImageView.image = image
+            }
+            let playbackDuration = Float(mediaData.playbackDuration)
+            self?.timeSlider.maximumValue = playbackDuration
+            self?.timeSlider.setValue(Float(self?.player.currentPlaybackTime ?? 0), animated: true)
+            let MusicMaxValue = round(playbackDuration)-1
+            self?.viewModel.setTotalSongTime(TimeInterval(MusicMaxValue))
+        }).disposed(by: disposeBag)
+        
         self.musicListBtn.rx.tap.bind{ [weak self] in
             self?.checkPermitUseMusic()
         }.disposed(by: disposeBag)
