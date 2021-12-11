@@ -30,7 +30,8 @@ final class ViewModel {
     .shareReplay(1)
 
     init(input: Input) {
-        isPlayIng = start.asDriver(onErrorDriveWith: .empty())
+        
+        isPlayIng = state.asDriver(onErrorDriveWith: .empty())
         
 //        input.playBtnTap.emit(onNext: { [weak self] in
 //
